@@ -1,7 +1,4 @@
 # PostgreSQL Data Formatting and Regular Expressions (Regex) Guide
-Here's an introduction to your PostgreSQL Data Formatting and Regular Expressions (Regex) Guide:
-
----
 
 ## Introduction
 
