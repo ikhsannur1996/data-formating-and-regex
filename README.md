@@ -282,13 +282,13 @@ SELECT REGEXP_REPLACE('<p>Hello</p>', '<[^>]*>', '', 'g') AS no_html;
 - **Explanation**: Removes HTML tags from the string, resulting in `'Hello'`.
 
 ---
-## Reference
-- https://www.postgresql.org/docs/current/functions-formatting.html
-- https://www.postgresql.org/docs/current/functions-matching.html
 
 ### **Summary**
 
 - **Data Formatting**: Includes 10 sections covering the use of `TO_CHAR`, `TO_DATE`, and handling date/time manipulations.
 - **Regular Expressions**: Demonstrates 20 examples of regex usage in PostgreSQL, such as pattern matching, extracting substrings, and validating formats like emails or phone numbers.
 
-This comprehensive guide aims to help you efficiently format data and work with regular expressions in PostgreSQL.
+---
+### **Reference**
+- https://www.postgresql.org/docs/current/functions-formatting.html
+- https://www.postgresql.org/docs/current/functions-matching.html
