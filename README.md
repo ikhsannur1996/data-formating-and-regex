@@ -1,143 +1,198 @@
 # PostgreSQL Data Formatting and Regular Expressions (Regex) Guide
 
-## **Table of Contents**
-1. [Introduction](#introduction)
-2. [Data Formatting](#data-formatting)
-   - [1. Formatting Date to 'YYYY-MM-DD'](#1-formatting-date-to-yyyy-mm-dd)
-   - [2. Formatting Date to 'MM/DD/YYYY'](#2-formatting-date-to-mmddyyyy)
-   - [3. Formatting Date with Day Name](#3-formatting-date-with-day-name)
-   - [4. Formatting Date to 'DD-MM-YYYY'](#4-formatting-date-to-dd-mm-yyyy)
-   - [5. Formatting Time to 'HH24:MI:SS'](#5-formatting-time-to-hh24miss)
-   - [6. Formatting Date and Time Together](#6-formatting-date-and-time-together)
-   - [7. Convert String to Date 'DD-MM-YYYY'](#7-convert-string-to-date-dd-mm-yyyy)
-   - [8. Convert String to Date 'YYYY/MM/DD'](#8-convert-string-to-date-yyyymmdd)
-   - [9. Convert String to Date 'Month Day, Year'](#9-convert-string-to-date-month-day-year)
-   - [10. Adding or Subtracting Days to a Date](#10-adding-or-subtracting-days-to-a-date)
-3. [Regular Expressions (Regex)](#regular-expressions-regex)
-   - [1. Basic Pattern Matching](#1-basic-pattern-matching)
-   - [2. Case-Insensitive Pattern Matching](#2-case-insensitive-pattern-matching)
-   - [3. Match Full Word](#3-match-full-word)
-   - [4. Extract Substring with Regex](#4-extract-substring-with-regex)
-   - [5. Extract Domain from Email](#5-extract-domain-from-email)
-   - [6. Replace Characters Using Regex](#6-replace-characters-using-regex)
-   - [7. Match a Sequence of Digits](#7-match-a-sequence-of-digits)
-   - [8. Validate Email Format](#8-validate-email-format)
-   - [9. Replace Multiple Spaces with a Single Space](#9-replace-multiple-spaces-with-a-single-space)
-   - [10. Extract Numbers from a String](#10-extract-numbers-from-a-string)
-   - [11. Check if String Contains Only Numbers](#11-check-if-string-contains-only-numbers)
-   - [12. Extract First Word from a Sentence](#12-extract-first-word-from-a-sentence)
-   - [13. Remove Non-Alphanumeric Characters](#13-remove-non-alphanumeric-characters)
-   - [14. Find Words Starting with a Specific Letter](#14-find-words-starting-with-a-specific-letter)
-   - [15. Extract File Extension from Filename](#15-extract-file-extension-from-filename)
-   - [16. Check if String Ends with a Number](#16-check-if-string-ends-with-a-number)
-   - [17. Match Phone Number Format](#17-match-phone-number-format)
-   - [18. Match IPv4 Address Format](#18-match-ipv4-address-format)
-   - [19. Find All Words in a String](#19-find-all-words-in-a-string)
-   - [20. Remove HTML Tags](#20-remove-html-tags)
+## **A. Data Formatting**
 
----
+### 1. Date Formatting
 
-## **Introduction**
-
-PostgreSQL provides a powerful set of tools for managing, formatting, and manipulating data in your database. This guide covers two key concepts:
-
-### **Data Formatting**
-Data formatting in PostgreSQL allows you to present and manipulate data (especially dates and times) in various formats to meet application or reporting needs. Whether you want to change how dates are displayed, convert between data types, or apply precise formatting for complex reports, PostgreSQL's functions like `TO_CHAR()` and `TO_DATE()` make it easy.
-
-This section will demonstrate how to:
-- Format dates in various ways.
-- Convert strings to dates and vice versa.
-- Manipulate and format both date and time components.
-  
-Understanding these functions helps ensure that your data is displayed in the correct format for users and applications.
-
-### **Regular Expressions (Regex)**
-Regular expressions are a powerful tool for pattern matching and string manipulation. PostgreSQL provides robust support for regex, allowing you to find, extract, and modify data based on complex patterns. Regex can be used to validate data formats (such as email addresses and phone numbers), extract meaningful substrings, and replace unwanted characters.
-
-In this section, you will explore:
-- Pattern matching for strings.
-- Extracting data using regex.
-- Validating and cleaning data with regular expressions.
-
-Mastering regex in PostgreSQL enables efficient text searching, validation, and manipulation within the database.
-
----
-
-## **Data Formatting**
-
-### 1. Formatting Date to 'YYYY-MM-DD'
+#### Format Date
 
 ```sql
 SELECT TO_CHAR(NOW(), 'YYYY-MM-DD') AS formatted_date;
 ```
-- **Explanation**: Formats the current date to `'YYYY-MM-DD'`.
+- **Explanation**: Converts the current date and time into the format `YYYY-MM-DD`.
 
-### 2. Formatting Date to 'MM/DD/YYYY'
-
-```sql
-SELECT TO_CHAR(NOW(), 'MM/DD/YYYY') AS formatted_date;
-```
-- **Explanation**: Formats the current date to `'MM/DD/YYYY'`.
-
-### 3. Formatting Date with Day Name
-
-```sql
-SELECT TO_CHAR(NOW(), 'Day, DD Month YYYY') AS formatted_date;
-```
-- **Explanation**: Adds the day name and formats the date like `'Sunday, 08 September 2024'`.
-
-### 4. Formatting Date to 'DD-MM-YYYY'
-
-```sql
-SELECT TO_CHAR(NOW(), 'DD-MM-YYYY') AS formatted_date;
-```
-- **Explanation**: Formats the current date to `'DD-MM-YYYY'`.
-
-### 5. Formatting Time to 'HH24:MI:SS'
-
-```sql
-SELECT TO_CHAR(NOW(), 'HH24:MI:SS') AS formatted_time;
-```
-- **Explanation**: Formats the current time to a 24-hour format, like `'13:45:30'`.
-
-### 6. Formatting Date and Time Together
-
-```sql
-SELECT TO_CHAR(NOW(), 'YYYY-MM-DD HH24:MI:SS') AS formatted_date_time;
-```
-- **Explanation**: Combines date and time in the format `'YYYY-MM-DD HH24:MI:SS'`.
-
-### 7. Convert String to Date 'DD-MM-YYYY'
+#### Convert String to Date (DD-MM-YYYY)
 
 ```sql
 SELECT TO_DATE('08-09-2024', 'DD-MM-YYYY') AS converted_date;
 ```
-- **Explanation**: Converts the string `'08-09-2024'` to a `DATE` object.
+- **Explanation**: Converts the string `'08-09-2024'` into a date, based on the format `DD-MM-YYYY`. The result will be `2024-09-08` in PostgreSQL's standard date format.
 
-### 8. Convert String to Date 'YYYY/MM/DD'
+#### Additional TO_DATE Example (YYYY/MM/DD)
 
 ```sql
-SELECT TO_DATE('2024/09/08', 'YYYY/MM/DD') AS converted_date;
+SELECT TO_DATE('2024/09/08', 'YYYY/MM/DD') AS formatted_date;
 ```
-- **Explanation**: Converts the string `'2024/09/08'` to a `DATE` object.
+- **Explanation**: Converts the string `'2024/09/08'` into the corresponding date format, `YYYY-MM-DD`.
 
-### 9. Convert String to Date 'Month Day, Year'
+#### Format Date with Day Name
+
+```sql
+SELECT TO_CHAR(NOW(), 'Day, DD Month YYYY') AS formatted_date;
+```
+- **Explanation**: Adds the day name and formats the date like `Sunday, 08 September 2024`.
+
+#### Format Date to 'MM/DD/YYYY'
+
+```sql
+SELECT TO_CHAR(NOW(), 'MM/DD/YYYY') AS formatted_date;
+```
+- **Explanation**: Formats the current date to `MM/DD/YYYY`.
+
+#### Format Time to 'HH24:MI:SS'
+
+```sql
+SELECT TO_CHAR(NOW(), 'HH24:MI:SS') AS formatted_time;
+```
+- **Explanation**: Formats the current time to a 24-hour format, like `13:45:30`.
+
+#### Format Date and Time Together
+
+```sql
+SELECT TO_CHAR(NOW(), 'YYYY-MM-DD HH24:MI:SS') AS formatted_date_time;
+```
+- **Explanation**: Combines date and time in the format `YYYY-MM-DD HH24:MI:SS`.
+
+#### Convert String to Date (Month Day, Year)
 
 ```sql
 SELECT TO_DATE('September 08, 2024', 'Month DD, YYYY') AS converted_date;
 ```
-- **Explanation**: Converts the string `'September 08, 2024'` to a `DATE` object.
+- **Explanation**: Converts the string `'September 08, 2024'` into a `DATE` object.
 
-### 10. Adding or Subtracting Days to a Date
+#### Adding Days to a Date
 
 ```sql
 SELECT NOW() + INTERVAL '5 days' AS future_date;
 ```
 - **Explanation**: Adds 5 days to the current date.
 
+#### Subtracting Days from a Date
+
+```sql
+SELECT NOW() - INTERVAL '5 days' AS past_date;
+```
+- **Explanation**: Subtracts 5 days from the current date.
+
+### 2. Cast String
+
+#### Cast Integer to String
+
+```sql
+SELECT CAST(12345 AS VARCHAR) AS string_value;
+```
+- **Explanation**: Casts the integer `12345` into a string.
+
+#### Cast Date to String
+
+```sql
+SELECT CAST(NOW() AS VARCHAR) AS date_string;
+```
+- **Explanation**: Casts the current date and time to a string.
+
+### 3. Integer Cast
+
+#### Convert String to Integer
+
+```sql
+SELECT '12345'::INTEGER AS int_value;
+```
+- **Explanation**: Converts the string `'12345'` to an integer.
+
+#### Convert Float to Integer
+
+```sql
+SELECT FLOOR(123.45) AS int_value;
+```
+- **Explanation**: Converts the float `123.45` to an integer by flooring it to `123`.
+
+### 4. Float Cast
+
+#### Convert String to Float
+
+```sql
+SELECT CAST('123.45' AS FLOAT) AS float_value;
+```
+- **Explanation**: Converts the string `'123.45'` into a floating-point number.
+
+#### Convert Integer to Float
+
+```sql
+SELECT 12345::FLOAT AS float_value;
+```
+- **Explanation**: Converts the integer `12345` to a float.
+
+#### Convert Date to Float (Timestamp)
+
+```sql
+SELECT EXTRACT(EPOCH FROM NOW()) AS timestamp_seconds;
+```
+- **Explanation**: Converts the current date and time to a float representing the number of seconds since the Unix epoch.
+
+### 5. Date Formatting with Locale
+
+#### Format Date with Locale Specifics
+
+```sql
+SELECT TO_CHAR(NOW(), 'TMDay, DD TMMonth YYYY', 'nls_date_language=english') AS formatted_date;
+```
+- **Explanation**: Formats the current date according to locale-specific settings.
+
+### 6. Formatting Time Zone
+
+#### Format Date and Time with Time Zone
+
+```sql
+SELECT TO_CHAR(NOW() AT TIME ZONE 'UTC', 'YYYY-MM-DD HH24:MI:SS TZ') AS formatted_date_time_utc;
+```
+- **Explanation**: Formats the current date and time including the time zone.
+
+### 7. Custom Date and Time Format
+
+#### Custom Format Date and Time
+
+```sql
+SELECT TO_CHAR(NOW(), 'Dy, DD Mon YYYY HH12:MI AM') AS custom_format_date_time;
+```
+- **Explanation**: Formats the current date and time in a custom format like `Sun, 08 Sep 2024 01:45 PM`.
+
+### 8. Extracting Date Components
+
+#### Extract Year from Date
+
+```sql
+SELECT EXTRACT(YEAR FROM NOW()) AS year;
+```
+- **Explanation**: Extracts the year from the current date.
+
+#### Extract Month from Date
+
+```sql
+SELECT EXTRACT(MONTH FROM NOW()) AS month;
+```
+- **Explanation**: Extracts the month from the current date.
+
+### 9. Format Currency
+
+#### Format as Currency
+
+```sql
+SELECT TO_CHAR(12345.6789, 'L9,999.99') AS currency_formatted;
+```
+- **Explanation**: Formats the number as currency with a locale-specific currency symbol.
+
+### 10. Format Interval
+
+#### Format Interval as String
+
+```sql
+SELECT TO_CHAR(INTERVAL '1 year 2 months 3 days', 'YY "years" MM "months" DD "days"') AS interval_formatted;
+```
+- **Explanation**: Formats an interval in a human-readable string format.
+
 ---
 
-## **Regular Expressions (Regex)**
+## **B. Regular Expressions (Regex)**
 
 ### 1. Basic Pattern Matching
 
@@ -193,9 +248,7 @@ SELECT 'abc123def' ~ '\d+' AS has_digits;
 ```sql
 SELECT 'john.doe@example.com' ~ '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$' AS is_valid_email;
 ```
-- **
-
-Explanation**: Checks if the string is in a valid email format. Returns `TRUE`.
+- **Explanation**: Checks if the string is in a valid email format. Returns `TRUE`.
 
 ### 9. Replace Multiple Spaces with a Single Space
 
@@ -228,7 +281,9 @@ SELECT SUBSTRING('Hello World' FROM '^\w+') AS first_word;
 ### 13. Remove Non-Alphanumeric Characters
 
 ```sql
-SELECT REGEXP_REPLACE('Hello@World!', '[^A-Za-z0-9]', '', 'g') AS cleaned_string;
+SELECT REGEXP_REPLACE('Hello@World
+
+!', '[^A-Za-z0-9]', '', 'g') AS cleaned_string;
 ```
 - **Explanation**: Removes all non-alphanumeric characters, resulting in `'HelloWorld'`.
 
@@ -252,6 +307,10 @@ SELECT SUBSTRING('report.pdf' FROM '\.(\w+)$') AS file_extension;
 SELECT 'invoice123' ~ '\d+$' AS ends_with_number;
 ```
 - **Explanation**: Checks if the string ends with a number. Returns `TRUE`.
+
+---
+
+This comprehensive guide should provide a clear understanding of PostgreSQL data formatting and regex usage. If you need further examples or explanations, feel free to ask!
 
 ### 17. Match Phone Number Format
 
