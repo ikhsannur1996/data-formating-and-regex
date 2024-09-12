@@ -145,7 +145,9 @@ SELECT EXTRACT(EPOCH FROM NOW()) AS timestamp_seconds;
 #### Format Date with Locale Specifics
 
 ```sql
-SELECT TO_CHAR(NOW(), 'TMDay, DD TMMonth YYYY', 'nls_date_language=english') AS formatted_date;
+SET lc_time = 'English';
+
+SELECT TO_CHAR(NOW(), 'FMDay, DD FMMonth YYYY') AS formatted_date;
 ```
 - **Explanation**: Formats the current date according to locale-specific settings.
 
@@ -188,7 +190,9 @@ SELECT EXTRACT(MONTH FROM NOW()) AS month;
 #### Format as Currency
 
 ```sql
-SELECT TO_CHAR(12345.6789, 'L9,999.99') AS currency_formatted;
+SET lc_monetary = 'id_ID';
+
+SELECT TO_CHAR(12345678.6789, 'L99,999,999.99') AS currency_formatted;
 ```
 - **Explanation**: Formats the number as currency with a locale-specific currency symbol.
 
